@@ -1,29 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import NavComponent from './components/navComponent.js';
+import Footer from './components/footer.js';
+import Card from "./components/card.js";
 
 function App() {
-  const productTitle = "Coconut";
-  const productPrice = 2.5;
-  const productCurrency = "USD";
-  const salesTax = 0.5;
-  const productCart = { productTitle, productPrice, productCurrency, salesTax };
+  const [allProducts, setAllProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://v2.api.noroff.dev/online-shop');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        console.log(data); // Check the fetched data in the console
+        setAllProducts(data.data); // Access the 'data' array from the response
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log("Type of allProducts:", typeof allProducts);
 
   return (
     <div className="container">
       <div className="row justify-content-center">
-        <div className="col-md-6 text-center">
-          <h1>Product Details</h1>
-          <ul className="list-unstyled">
-            <li>{productCart.productTitle}</li>
-            <li>{productCart.productPrice} {productCart.productCurrency}</li>
-            <li>{productCart.salesTax} {productCart.productCurrency}</li>
-            <li>Total: {productCart.productPrice + productCart.salesTax} {productCart.productCurrency}</li>
-          </ul>
-          <img 
-            src="https://i.pinimg.com/564x/b2/8f/4f/b28f4f30e63cad83e5a17b01b3b2962f.jpg" 
-            alt="Coconut"
-            className="img-fluid"  // Ensures the image is responsive
-          />
+        <div className="col-md-16 text-center">
+          <NavComponent />
+          <h2>Products</h2>
+          {allProducts.map(product => (
+            <Card
+              key={product.id}
+              title={product.title}
+              text={product.description}
+              image={product.image.url} // Access the 'url' property from the 'image' object
+              price={product.price} // Access the 'price' property
+            />
+          ))}
+          <Footer />
         </div>
       </div>
     </div>
