@@ -3,7 +3,9 @@ import onButtonClick from './buttonEvent.jsx';
 
 function Card(props) {
   const priceClass = props.isDiscounted ? 'text-danger' : '';
-  const saleText = props.isDiscounted ? 'On Sale!' : '';
+  const discountPercentage = ((props.price - props.discountedPrice) / props.price) * 100;
+  const saleText = props.isDiscounted ? `On Sale! ${discountPercentage.toFixed(0)}% off ` : '';
+  
 
   return (
     <div className="card m-2 col-8">
@@ -12,8 +14,8 @@ function Card(props) {
         <div className="card-body">
           <h5 className="card-title">{props.title}</h5>
           <p className="card-text">{props.text}</p>
-          <p className={`card-text ${priceClass}`}>Price: {props.price}</p>
-          <a href={props.link} className="btn btn-dark" onClick={onButtonClick}>View Product</a>
+          <p className={`card-text ${priceClass}`}>Price: {props.price} {saleText}</p>
+          <a href={props.link} className="btn btn-dark" id={`${props.id}`} onClick={onButtonClick}>View Product</a>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ function NavComponent() {
                 <a className="nav-link" href="#">Home</a>
             </li>
             <li className="nav-item m-2">
-                <a className="nav-link" href="#">Cart (0)</a>
+                <a className="nav-link" href="#">🛒(0)</a>
             </li>
         </ul>
     </div>

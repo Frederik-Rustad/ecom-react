@@ -36,20 +36,22 @@ function App() {
 
             {allProducts.map(product => {
               const { id, title, description, image, price, discountedPrice } = product;
-              const isDiscounted = price === discountedPrice;
-
+              const isDiscounted = price !== discountedPrice; // not sure if === or !== is the correct discount 
+              
               return (
                 <Card
                   key={id}
+                  id={id}
                   title={title}
                   text={description}
                   image={image.url}
                   price={price}
                   link={product.link}
                   isDiscounted={isDiscounted}
+                  discountedPrice={discountedPrice}
                 />
               );
-              
+
             })}
           </div>
           <Footer />
