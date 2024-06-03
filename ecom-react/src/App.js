@@ -1,63 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavComponent from './components/navComponent.jsx';
-import Footer from './components/footer.jsx';
-import Card from "./components/card.jsx";
+import HomePage from './pages/HomePage';
+import ContactPage from './pages/ContactPage';
+import ProductPage from './pages/ProductPage';
+import CheckoutPage from './pages/CheckoutPage';
+import CheckoutSuccessPage from './pages/CheckoutSuccess';
+import { CartProvider } from './context/CartContext';
 
 function App() {
-  const [allProducts, setAllProducts] = useState([]);
-
-  useEffect(() => {
-    const APIURL = 'https://v2.api.noroff.dev/online-shop';
-    const fetchData = async () => {
-      try {
-        const response = await fetch(APIURL);
-        console.log(response);
-        if (!response.ok) {
-          throw new Error('API response was not ok');
-        }
-        const data = await response.json();        
-        setAllProducts(data.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-md-16 text-center">
-          <NavComponent />
-          <h2>Products</h2>
-          <div className="d-flex flex-wrap justify-content-center">
-
-            {allProducts.map(product => {
-              const { id, title, description, image, price, discountedPrice } = product;
-              const isDiscounted = price !== discountedPrice; // not sure if === or !== is the correct discount 
-              
-              return (
-                <Card
-                  key={id}
-                  id={id}
-                  title={title}
-                  text={description}
-                  image={image.url}
-                  price={price}
-                  link={product.link}
-                  isDiscounted={isDiscounted}
-                  discountedPrice={discountedPrice}
-                />
-              );
-
-            })}
-          </div>
-          <Footer />
-        </div>
-      </div>
-    </div>
+    <CartProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/cart" element={<CheckoutPage />} />
+          <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
+          <Route path="*" element={<h1>404 - Not Found</h1>} />
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 
