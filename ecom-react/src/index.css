@@ -18,7 +18,12 @@ code {
   object-fit: fill;
 }
 .productimg2 {
-  max-width: 200px;
-  max-height: 200px;
+  max-width: 250px;
+  max-height: 250px;
+  object-fit: fill;
+}
+.checkoutImg {
+  max-width: 100px;
+  max-height: 100px;
   object-fit: fill;
 }

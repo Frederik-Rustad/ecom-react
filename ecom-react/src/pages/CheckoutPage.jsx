@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import { CartContext } from '../context/CartContext';
 
 function CheckoutPage() {
-  const { cartItems, totalAmount } = useContext(CartContext);
+  const { cartItems, totalAmount, removeFromCart } = useContext(CartContext);
   const navigate = useNavigate();
   const [customerDetails, setCustomerDetails] = useState({
     name: '',
@@ -26,8 +26,7 @@ function CheckoutPage() {
       setError('Please fill in all fields.');
       return;
     }
-    // Handle the checkout process (e.g., send details to an API)
-    // For now, we'll just navigate to the success page
+
     navigate('/checkout-success');
   };
 
@@ -41,12 +40,18 @@ function CheckoutPage() {
           <h2>Order Summary</h2>
           <ul className="list-group mb-3">
             {cartItems.map((item) => (
-              <li key={item.id} className="list-group-item d-flex justify-content-between">
-                <div>
-                  <h6 className="my-0">{item.title}</h6>
-                  <small className="text-muted">{item.description}</small>
+              <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
+                <div className="d-flex align-items-center">
+                  <img src={item.image.url} className="card-img-top checkoutImg" alt={item.title} />
+                  <div className="ms-3">
+                    <h6 className="my-0">{item.title}</h6>
+                    <small className="text-muted">{item.description}</small>
+                  </div>
                 </div>
-                <span className="text-muted">${item.price}</span>
+                <div className="d-flex align-items-center">
+                  <span className="text-muted me-3">${item.price}</span>
+                <button className="btn btn-danger btn-sm" onClick={() => removeFromCart(item.id)}>Remove</button>
+                </div>
               </li>
             ))}
             <li className="list-group-item d-flex justify-content-between">

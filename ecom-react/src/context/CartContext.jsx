@@ -9,10 +9,19 @@ export const CartProvider = ({ children }) => {
     setCartItems((prevState) => [...prevState, item]);
   }
 
-  const totalAmount = cartItems.reduce((acc, item) => acc + item.price, 0);
+  function removeFromCart(itemId) {
+    const indexToRemove = cartItems.findIndex(item => item.id === itemId);
+    if (indexToRemove !== -1) {
+      const updatedCartItems = [...cartItems];
+      updatedCartItems.splice(indexToRemove, 1);
+      setCartItems(updatedCartItems);
+    }
+  }
+
+  const totalAmount = cartItems.reduce((acc, item) => acc + item.price, 0).toFixed(2);
 
   return (
-    <CartContext.Provider value={{ cartItems, totalAmount, addToCart }}>
+    <CartContext.Provider value={{ cartItems, totalAmount, addToCart, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );

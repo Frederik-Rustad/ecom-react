@@ -10,6 +10,7 @@ function ProductPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { addToCart } = useContext(CartContext);
+  const [addToCartSuccess, setAddToCartSuccess] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -32,6 +33,12 @@ function ProductPage() {
     fetchProduct();
   }, [id]);
 
+  const handleAddToCart = () => {
+    addToCart(product);
+    setAddToCartSuccess(true);
+    setTimeout(() => setAddToCartSuccess(false), 2000);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -40,17 +47,13 @@ function ProductPage() {
     return <div>Error: {error}</div>;
   }
 
-  const handleAddToCart = () => {
-    addToCart(product);
-  };
-
   return (
     <div className="container">
       <NavComponent />
       {product && (
         <div className="row">
           <div className="col-md-6">
-            <img src={product.image.url} alt={product.title} className="img-fluid productimg2 mt-3 rounded mx-auto d-block " />
+            <img src={product.image.url} alt={product.title} className="img-fluid productimg2 rounded mx-auto d-block mt-3" />
           </div>
           <div className="col-md-6">
             <h1>{product.title}</h1>
@@ -69,7 +72,26 @@ function ProductPage() {
                 <strong>Price: ${product.price}</strong>
               )}
             </p>
-            <button className="btn btn-primary" onClick={handleAddToCart}>Add to Cart</button>
+            <button className="btn btn-primary" onClick={handleAddToCart}>
+              Add to Cart
+            </button>
+            {addToCartSuccess && <div className="alert alert-success mt-2">Item added to cart!</div>}
+          </div>
+        </div>
+      )}
+      {product && product.reviews && product.reviews.length > 0 && (
+        <div className="row mt-5">
+          <div className="col-md-12">
+            <h2>Reviews</h2>
+            {product.reviews.map((review) => (
+              <div key={review.id} className="card mb-3">
+                <div className="card-body">
+                  <h5 className="card-title">{review.username}</h5>
+                  <h6 className="card-subtitle mb-2 text-muted">Rating: {'⭐'.repeat(review.rating)}</h6>
+                  <p className="card-text">{review.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
