@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { CartContext } from '../context/CartContext'; 
+import logo from '../assets/e-shop.png';
 
 function NavComponent() {
     const { cartItems } = useContext(CartContext);
@@ -9,7 +10,7 @@ function NavComponent() {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
-                <Link to="/" className='nav-link text-white'>My Logo</Link>
+            <Link to="/" className='nav-link text-white'><img src={logo} alt="e-shop logo" /></Link>
                 <ul className="d-flex flex-row ml-auto list-unstyled text-white">
                     <li className="nav-item m-2">
                         <Link to="/" className='nav-link'>Home</Link>
