@@ -20,7 +20,6 @@ function ProductPage() {
           throw new Error('API response was not ok');
         }
         const data = await response.json();
-        console.log('Fetched product data:', data);
         setProduct(data.data);
       } catch (error) {
         setError(error.message);
