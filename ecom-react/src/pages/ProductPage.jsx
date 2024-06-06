@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavComponent from '../components/NavComponent';
 import { CartContext } from '../context/CartContext';
 
 function ProductPage() {
@@ -48,8 +47,7 @@ function ProductPage() {
   }
 
   return (
-    <div className="container">
-      <NavComponent />
+    <div className="container">     
       {product && (
         <div className="row">
           <div className="col-md-6">

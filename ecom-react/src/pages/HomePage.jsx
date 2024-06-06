@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NavComponent from '../components/NavComponent';
 import Card from '../components/Card';
-import Footer from '../components/Footer';
 import SearchBar from '../components/SearchBar';
 
 function ProductList() {
@@ -39,7 +37,7 @@ function ProductList() {
 
   return (
     <div className="container">
-      <NavComponent />
+     
       <SearchBar onSearch={handleSearch} />
       <div className="row justify-content-center">
         <div className="col-md-12 text-center">
@@ -63,8 +61,7 @@ function ProductList() {
             })}
           </div>
         </div>
-      </div>
-      <Footer />
+      </div>     
     </div>
   );
 }

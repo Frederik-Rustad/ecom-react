@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import NavComponent from '../components/NavComponent';
-import Footer from '../components/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ContactPage() {
@@ -17,8 +15,7 @@ function ContactPage() {
 
   return (
     <div className="container">
-      <div className="row justify-content-center">
-        <NavComponent />
+      <div className="row justify-content-center">        
         <div className="col-md-8">
           <h1>Contact Us</h1>
           {submitted ? (
@@ -64,8 +61,7 @@ function ContactPage() {
             </form>
           )}
         </div>
-      </div>
-      <Footer />
+      </div>     
     </div>
   );
 }

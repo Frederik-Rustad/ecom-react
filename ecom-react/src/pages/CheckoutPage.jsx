@@ -1,56 +1,37 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NavComponent from '../components/NavComponent';
-import Footer from '../components/Footer';
 import { CartContext } from '../context/CartContext';
 
 function CheckoutPage() {
-  const { cartItems, totalAmount, removeFromCart } = useContext(CartContext);
+  const { cartItems, totalAmount, removeFromCart, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
-  const [customerDetails, setCustomerDetails] = useState({
-    name: '',
-    email: '',
-    address: '',
-  });
-  const [error, setError] = useState('');
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCustomerDetails({ ...customerDetails, [name]: value });
-  };
 
   const handleCheckout = () => {
-    const { name, email, address } = customerDetails;
-    if (!name || !email || !address) {
-      setError('Please fill in all fields.');
-      return;
-    }
-
+    clearCart();
     navigate('/checkout-success');
   };
 
   return (
-    <div className="container">
-      <NavComponent />
+    <div className="container">     
+      
       <div className="row">
         <div className="col-md-8 offset-md-2">
           <h1>Checkout</h1>
-          {error && <div className="alert alert-danger">{error}</div>}
           <h2>Order Summary</h2>
           <ul className="list-group mb-3">
             {cartItems.map((item) => (
-              <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center">
-                <div className="d-flex align-items-center">
-                  <img src={item.image.url} className="card-img-top checkoutImg" alt={item.title} />
-                  <div className="ms-3">
+              <li key={item.id} className="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                <div className="d-flex align-items-center flex-column flex-md-row">
+                  <img src={item.image.url} className="card-img-top checkoutImg mb-3 me-md-3" alt={item.title} />
+                  <div className="d-flex flex-column">
                     <h6 className="my-0">{item.title}</h6>
                     <small className="text-muted">{item.description}</small>
                   </div>
                 </div>
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center mt-md-0 mt-3">
                   <span className="text-muted me-3">${item.price}</span>
-                <button className="btn btn-danger btn-sm" onClick={() => removeFromCart(item.id)}>Remove</button>
+                  <button className="btn btn-danger btn-sm" onClick={() => removeFromCart(item.id)}>Remove</button>
                 </div>
               </li>
             ))}
@@ -59,48 +40,11 @@ function CheckoutPage() {
               <strong>${totalAmount}</strong>
             </li>
           </ul>
-          <h2>Customer Details</h2>
-          <form>
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">Name</label>
-              <input
-                type="text"
-                className="form-control"
-                id="name"
-                name="name"
-                value={customerDetails.name}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                name="email"
-                value={customerDetails.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="address" className="form-label">Address</label>
-              <input
-                type="text"
-                className="form-control"
-                id="address"
-                name="address"
-                value={customerDetails.address}
-                onChange={handleChange}
-              />
-            </div>
-            <button type="button" className="btn btn-primary" onClick={handleCheckout}>
-              Proceed to Checkout
-            </button>
-          </form>
+          <button type="button" className="btn btn-success" onClick={handleCheckout}>
+            Proceed to Checkout
+          </button>
         </div>
-      </div>
-      <Footer />
+      </div>     
     </div>
   );
 }
