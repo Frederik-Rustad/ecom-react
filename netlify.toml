@@ -1,0 +1,7 @@
+[build]
+  base = "ecom-react"
+  publish = "ecom-react/build"
+  command = "npm run build"
+
+[build.environment]
+  NODE_ENV = "production"
